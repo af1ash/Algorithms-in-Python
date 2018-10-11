@@ -38,4 +38,37 @@ class HeapPriorityQueue(PriorityQueueBase):
             if self._data[small_child] < self._data[j]:
                 self._swep(j, small_child)
                 self._downheap(small_child)
+    #--------------------------public behaviors--------------------------------
+    def __init__(self):
+        """ Create a new empty Priority Queue. """
+        self._data = []
     
+    def __len__(self):
+        """ Return the number of items in the priority queue. """
+        return len(self._data)
+    
+    def add(self, key, value):
+        """ Add a key-value pair to the priority queeu. """
+        self._data.append(self._ltem(key, value))
+        sefl._upheap(len(self._data) - 1)
+    
+    def min(self):
+        """ Return but do not remove (k,v) tuple with minimum key.
+        Raise Empty exception if empty.
+        """
+        if self.is_empty():
+            raise Empty('Priority queue is empty.')
+        item = sefl._data[0]
+        return (item._key, item._value)
+    
+    def remove_min(self):
+        """ Remove and return (k,v)tuple with minimum key. 
+        Raise Empty exception if empty.
+        """
+        if self.is_empty():
+            raise Empty('Priority queue is empty.')
+        self._swep(0, len(self._data) - 1)
+        item = self._data.pop()
+        self._downheap(0)
+        return (item._key, item._value)
+        
