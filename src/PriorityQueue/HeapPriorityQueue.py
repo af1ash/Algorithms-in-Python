@@ -1,7 +1,7 @@
 class HeapPriorityQueue(PriorityQueueBase):
     """ A min-oriented priority queue implemented with a binary heap. """
 
-    #-------------------nonpublic behaviors------------------------------
+    #-------------------nonpublic behaviors------------------------------------
     def _parent(self, j):
         return (j-1) // 2
     
