@@ -1,5 +1,4 @@
-from .SortTableMap import SortedTableMap
-
+import SortTableMap.SortedTableMap as SortedTableMap
 
 class CostPerformanceDatabase(object):
     """ Maintain a database of maximal (cost, performance) pairs. """
@@ -18,7 +17,7 @@ class CostPerformanceDatabase(object):
         """ Add new entry with cost c and performance p. """
         # determine if (c, p) is dominated by existing pair
         other = self._M.find_lt(c)
-        if other is ont None and other[1] >= p:
+        if other is not None and other[1] >= p:
             return 
         self._M[c] = p 
         # and now remove any pairs that are dominated by (c, p)

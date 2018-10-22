@@ -32,6 +32,9 @@ class TestUnsortedTableMap(unittest.TestCase):
         self.assertEqual(len(self.m), 4)
         self.assertEqual(self.m['B'], 4)
         self.assertRaises(KeyError, self.m.get('x'))
+        self.assertEqual(self.m.get('K', 5), 9)
+        del self.m['V']
+        
         
 if __name__ == '__main__':
     unittest.main()

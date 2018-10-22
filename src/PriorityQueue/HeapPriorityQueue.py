@@ -1,3 +1,6 @@
+from .PriorityQueueBase import PriorityQueueBase
+
+
 class HeapPriorityQueue(PriorityQueueBase):
     """ A min-oriented priority queue implemented with a binary heap. """
 
@@ -50,7 +53,7 @@ class HeapPriorityQueue(PriorityQueueBase):
     def add(self, key, value):
         """ Add a key-value pair to the priority queeu. """
         self._data.append(self._ltem(key, value))
-        sefl._upheap(len(self._data) - 1)
+        self._upheap(len(self._data) - 1)
     
     def min(self):
         """ Return but do not remove (k,v) tuple with minimum key.
@@ -58,7 +61,7 @@ class HeapPriorityQueue(PriorityQueueBase):
         """
         if self.is_empty():
             raise Empty('Priority queue is empty.')
-        item = sefl._data[0]
+        item = self._data[0]
         return (item._key, item._value)
     
     def remove_min(self):

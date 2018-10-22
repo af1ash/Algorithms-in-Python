@@ -4,6 +4,7 @@ from ..Map.MapBase import MapBase
 class SortedTableMap(MapBase):
     """ Map implementation using s sorted table. """
     # --------------nonpublic behaviors-------------
+
     def _find_index(self, k, low, high):
         """ Return index of the leftmost item with key greater than or equal to k. 
         Return high + 1 if no such item qualifies.
@@ -27,11 +28,11 @@ class SortedTableMap(MapBase):
     def __init__(self):
         """ Create an empty map. """
         self._table = []
-    
+
     def __len__(self):
         """ Return number of items in the map. """
         return len(self._table)
-    
+
     def __getitem__(self, k):
         """ Return value associated with key k (rasie KeyError if not found) """
         j = self._find_index(k, 0, len(self._table) - 1)
@@ -60,9 +61,9 @@ class SortedTableMap(MapBase):
             yield item._key
 
     def __reversed__(self):
-         """Generate keys of the map ordered from maximum to minimum."""
-         for item in reversed(self._table):
-             yield item._key
+        """Generate keys of the map ordered from maximum to minimum."""
+        for item in reversed(self._table):
+            yield item._key
 
     def find_min(self):
         """Return (key, value) pair with minimum key (or None if empty)."""
@@ -116,4 +117,3 @@ class SortedTableMap(MapBase):
         while j < len(self._table) and (stop is None or self._table[j]._key < stop):
             yield (self._table[j]._key, self._table[j]._value)
             j += 1
-
