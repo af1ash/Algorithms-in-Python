@@ -1,5 +1,6 @@
 from .HashMapBase import HashMapBase
 
+
 class ProbeHashMap(HashMapBase):
     """ Hash map implemented with linear probing for collision resolution. """
     _AVAIL = object()   # sentinal marks locations of previous deletions
@@ -7,10 +8,10 @@ class ProbeHashMap(HashMapBase):
     def _is_available(self, j):
         """ Return True if index j is available in table """
         return self._table[j] is None or self._table[j] is ProbeHashMap._AVAIL
-    
+
     def _find_slot(self, j, k):
         """ Search for key k in bucket at index j. 
-        
+
         Return (success, index) tuple, described as follows:
         if match was found, success is True and index denotes its location.
         if not match found, success is False and index denotes first available slot.
@@ -26,13 +27,13 @@ class ProbeHashMap(HashMapBase):
                 return (True, j)
 
             j = (j + 1) % len(self._table)
-    
+
     def _bucket_getitem(self, j, k):
         found, s = self._find_slot(j, k)
         if not found:
             raise KeyError('Key Error: ' + repr(k))
         return self._table[s]._value
-    
+
     def _bucket_setitem(self, j, k, v):
         found, s = self._find_slot(j, k)
         if not found:
@@ -40,15 +41,14 @@ class ProbeHashMap(HashMapBase):
             self._n += 1
         else:
             self._table[s]._value = v
-    
+
     def _bucket_delitem(self, j, k):
         found, s = self._find_slot(j, k)
         if not found:
             raise KeyError('Key Error: ' + repr(k))
         self._table[s] = ProbeHashMap._AVAIL
-    
+
     def __iter__(self):
         for j in range(len(self._table)):
             if not self._is_available(j):
                 yield self._table[j]._key
-                
