@@ -1,4 +1,6 @@
 from .Tree import Tree
+
+
 class BinaryTree(Tree):
     """ Abstract base class representing a binary tree structure. """
 
@@ -31,3 +33,5 @@ class BinaryTree(Tree):
             yield self.left(p)
         if self.right(p) is not None:
             yield self.right(p)
+
+    

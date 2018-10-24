@@ -1,7 +1,8 @@
 
-class Tree():
+class Tree(object):
     """ Abstract base class representing a tree structure. """
-    class Position():
+
+    class Position(object):
         """ An abstraction representing the location of a single element. """
 
         def element(self):
@@ -36,10 +37,22 @@ class Tree():
         """ Return the total number of elements in the tree. """
         raise NotImplementedError('must be implemented by subclass')
 
+    def is_root(self, p):
+        """ Return True if Position p represents the root of the tree. """
+        return self.root() == p
+
+    def is_leaf(self, p):
+        """ Return True  if Position p does not have any children. """
+        return self.num_children(p) == 0
+
+    def is_empty(self):
+        """ Return True if the tree is empty. """
+        return len(self) == 0
+
     def __iter__(self):
-    """ Generate an iteration of the tree's elements. """
-    for p in self.positions():
-        yield p.element()
+        """ Generate an iteration of the tree's elements. """
+        for p in self.positions():
+            yield p.element()
 
     def preorder(self):
         """ Generate a preorder iteration of positions in the tree. """
@@ -62,7 +75,7 @@ class Tree():
 
     def _subtree_inorder(self, p):
         """ Generate a inorder iteration of positions in subtree rooted at p. """
-        if self.letf(p) is not None:
+        if self.left(p) is not None:
             for other in self._subtree_inorder(self.left(p)):
                 yield other
         yield p
@@ -85,18 +98,6 @@ class Tree():
             for other in self._subtree_postorder(self.right(p)):
                 yield other
         yield p
-
-    def is_root(self, p):
-        """ Return True if Position p represents the root of the tree. """
-        return self.root() == p 
-    
-    def is_leaf(self, p):
-        """ Return True  if Position p does not have any children. """
-        return self.num_children(p) == 0
-    
-    def is_empty(self):
-        """ Return True if the tree is empty. """
-        return len(self) == 0
 
     def depth(self, p):
         """ Return the number of levels separating Position from the root. """

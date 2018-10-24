@@ -16,8 +16,6 @@ class TreeMap(LinkedBinaryTree, MapBase):
             """ Return value of map's key-value pair. """
             return self.element()._value
 
-
-
     # -----------------------nonpublic utilities-------------------------
 	def _subtree_search(self, p, k):
 		""" Return Position of p's subtree having key k, or last node searched. """
@@ -127,7 +125,7 @@ class TreeMap(LinkedBinaryTree, MapBase):
 				p = self.find_position(start)
 				if p.key() < start:
 					p = self.after(p)
-			while p is not Noen and (stop is None or p.key() < stop):
+			while p is not None and (stop is None or p.key() < stop):
 				yield (p.key(), p.value())
 				p = self.after(p)
 

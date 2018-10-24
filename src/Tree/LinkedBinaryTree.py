@@ -1,31 +1,34 @@
+from . import BinaryTree
+
 
 class LinkedBinaryTree(BinaryTree):
     """ Linked representation of a binary tree structure. """
 
     class _Node:
         __slots__ = '_element', '_parent', '_left', '_right'
-        def __init__(self, element, parent, left, right):
+
+        def __init__(self, element, parents, left, right):
             self._element = element
             self._parent = parents
             self._left = left
-            self._right = right 
-    
-    class Position(BinaryTree.Poition):
+            self._right = right
+
+    class Position(BinaryTree.Position):
         """ An abstraction representing the location of a single element. """
 
         def __init__(self, container, node):
             """ Constructor should not be invoked by user. """
             self._container = container
             self._node = node
-        
+
         def element(self):
             """ Return the element stored at this Position. """
             return self._node._element
-        
+
         def __eq__(self, other):
             """ Return True if other is a Poistion representing the same location. """
             return type(other) is type(self) and other._node is self._node
-        
+
         def _validate(self, p):
             """ Return associated node, if Position is valid. """
             if not isinstance(p, self.Position):
@@ -39,35 +42,35 @@ class LinkedBinaryTree(BinaryTree):
     def _make_position(self, node):
         """ Return Position instance for given node (or None if no node) """
         return self.Position(self, node) if node is not None else None
-    
+
     def __init__(self):
         """ Create an initially empty binary tree. """
         self._root = None
         self._size = 0
-    
+
     def __len__(self):
         """ Return the total number of elements in the tree. """
         return self._size
-    
+
     def root(self):
         """ Return the root Position of the tree (or None if tree is empty) """
         return self._make_position(self._root)
-    
+
     def parent(self, p):
         """ Return the Position of p's parent (or None if p is root) """
         node = self._validate(p)
         return self._make_position(node._parent)
-    
+
     def left(self, p):
         """ Return the Position of p's left child (or None if no left child). """
         node = self._validate(p)
         return self._make_position(node._left)
-    
+
     def right(self, p):
         """ Return the Position of p's right child(or None if no right child). """
         node = self._validate(p)
         return self._make_position(node._right)
-    
+
     def num_children(self, p):
         """ Return the number of children of Position p. """
         node = self._validate(p)
@@ -76,18 +79,18 @@ class LinkedBinaryTree(BinaryTree):
             count += 1
         if node._right is not None:
             count += 1
-        return count 
-    
+        return count
+
     def _add_root(self, e):
         """ Place element e at the root of an empty tree and return new Position. 
         Raise ValueError if tree nonempty.
         """
-        if self._root is not None: 
+        if self._root is not None:
             raise ValueError('Root exists')
         self._size += 1
         self._root = self._Node(e, node)
         return self._make_position(self._root)
-    
+
     def _add_left(self, p, e):
         """ Create a new left child for Position p, storing element e.
         Return the Position of new node.
@@ -116,9 +119,9 @@ class LinkedBinaryTree(BinaryTree):
         """ Replace the element at position p with e, and return old element. """
         node = self._validate(p)
         old = node._element
-        node._element = e 
+        node._element = e
         return old
-    
+
     def _delete(self, p):
         """ Delete the node at Position p, and replace it with its child, if any.
         Return the element that had been stored at Position p.
@@ -140,13 +143,13 @@ class LinkedBinaryTree(BinaryTree):
         self._size -= 1
         node._parent = node
         return node._element
-    
+
     def _attach(self, p, t1, t2):
         """ Attach tree t1 and t2 as left and right subtrees of external p. """
         node = self._validate(p)
         if not self.is_leaf(p): raise ValueError('position must be leaf')
         if not type(self) is type(t1) is type(t2):
-            raise TypeError('Tree types must match')    
+            raise TypeError('Tree types must match')
         self._size += len(t1) + len(t2)
         if not t1.is_empty():
             t1._root._parent = node
@@ -158,7 +161,7 @@ class LinkedBinaryTree(BinaryTree):
             node._right = t2._root
             t2._root = None
             t2._size = 0
-        
+
     def breadthfirst(self):
         """ Geenerate a breadth-first iteration of the positions of the tree. """
         if not self.is_empty():
@@ -166,7 +169,6 @@ class LinkedBinaryTree(BinaryTree):
             fringe.enqueue(self.root())
             while not fringe.is_empty():
                 p = fringe.dequeue()
-                yield p 
+                yield p
                 for c in self.children(p):
                     fringe.enqueue(c)
-

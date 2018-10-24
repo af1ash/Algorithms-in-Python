@@ -9,8 +9,8 @@ class HashMapBase(MapBase):
         self._table = cap * [None]
         self._n = 0
         self._prime = p
-        self._scale = 1 + randrange(p - 1)
-        self._shift = randrange(p)
+        self._scale = 1 + range(p - 1)
+        self._shift = range(p)
 
     def _hash_function(self, k):
         return (hash(k) * self._scale + self._shift) % self._prime % len(self._table)
