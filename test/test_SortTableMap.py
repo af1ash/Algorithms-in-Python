@@ -1,7 +1,7 @@
 from src.HashMap.SortTableMap import (
     SortedTableMap
 )
-# import sys
+import sys
 import unittest
 
 
@@ -16,7 +16,7 @@ class TestUnsortedTableMap(unittest.TestCase):
         pass
 
     def setUp(self):
-        # print(sys.path)
+        print(sys.path)
         self.m = SortedTableMap()
 
     def tearDown(self):

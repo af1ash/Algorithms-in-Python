@@ -3,18 +3,18 @@ from ..Map.MapBase import MapBase
 
 
 class TreeMap(LinkedBinaryTree, MapBase):
-    """ Sorted map implementation using a binary search tree. """
+	""" Sorted map implementation using a binary search tree. """
 
     # ----------------------override Position class-------------------
-    class Position(LinkedBinaryTree.Position):
-
-        def key(self):
-            """ Return key of map's key-value pair. """
-            return self.element()._key
-
-        def value(self):
-            """ Return value of map's key-value pair. """
-            return self.element()._value
+	class Position(LinkedBinaryTree.Position):
+		
+		def key(self):
+			""" Return key of map's key-value pair. """
+			return self.element()._key
+		
+		def value(self):
+			""" Return value of map's key-value pair. """
+			return self.element()._value
 
     # -----------------------nonpublic utilities-------------------------
 	def _subtree_search(self, p, k):
@@ -191,3 +191,53 @@ class TreeMap(LinkedBinaryTree, MapBase):
 				return
 			self._rebalance_access(p)
 		raise KeyError('Key Error: ' + repr(k))
+
+	def _rebalance_access(self, p):
+		pass
+	
+	def _rebalance_insert(self, p):
+		pass
+	
+	def _rebalance_delete(self, p):
+		pass
+	
+	def _relink(self, parent, child, make_left_child):
+		""" Relink parent node with child node (we allow child to be None) """
+		if make_left_child:
+			parent._left = child
+		else:
+			parent._right = child
+		if child is not None:
+			child._parent = parent
+	
+	def _rotate(self, p):
+		""" Rotate Position p above its parent. """
+		x = p._node
+		y = x._parent
+		z = y._parent
+		if z is None:
+			self._root = x						# x becomes root
+			x._parent = None
+		else:
+			self._relink(z, x, y == z._left)
+		
+		# now rotate x and y, including transfer of middle subtree
+		if x == y._left:
+			self._relink(y, x._right, True)		# x._right becomes left child of y
+			self._relink(x, y, False)			# y becomes right child of x
+		else:
+			self._relink(y, x_left, False)		# x._left becomes right child of y
+			self._relink(x, y, True)			# y becomes left child of x
+
+	def _restructure(self, x):
+		""" Perform trinode restructure of Position x with parent/grandparent. """
+		y = self.parent(x)
+		z = self.parent(y)
+		if (x == self.right(y)) == (y == self.right(z)):
+			self._rotate(y)
+			return y
+		else:
+			self._rotate(x)
+			self._rotate(x)
+			return x
+		

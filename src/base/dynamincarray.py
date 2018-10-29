@@ -17,7 +17,7 @@ class DynamicArray:
         """Return element at index k."""
         if not 0 <= k < self._n:
             raise IndexError('invalid index')
-        return self._A[K]
+        return self._A[k]
     
     def append(self, obj):
         """Add object ot end of the array."""
